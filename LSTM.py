@@ -28,7 +28,7 @@ dataset = dataset.astype('float32')
 scaler = MinMaxScaler(feature_range=(0, 1))
 dataset = scaler.fit_transform(dataset)
 # split into train and test sets
-b = int(len(dataset) * 0.67)
+train_size = int(len(dataset) * 0.67)
 test_size = len(dataset) - train_size
 train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 # reshape into X=t and Y=t+1
@@ -45,7 +45,7 @@ print('test set', numpy.shape(testX))
 model = Sequential()
 model.add(LSTM(4, input_shape=(1, look_back)))
 model.add(Dense(1))
-model.compile(loss='mean_squared_error')
+model.compile(loss='mean_squared_error',optimizer = 'Adam')
 model.fit(trainX, trainY, epochs=100, batch_size=1, verbose=2)
 # make predictions
 trainPredict = model.predict(trainX)
